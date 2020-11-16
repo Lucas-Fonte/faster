@@ -1,7 +1,7 @@
 <p align="center">
 <img src="src/assets/faster_logo.png" alt="logo" width="100px">
 
-<h1 align="center"><i>Faster<i></h1>
+<h1 align="center"><i>Faster</i></h1>
 
 </p>
 
