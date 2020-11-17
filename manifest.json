@@ -12,5 +12,5 @@
     "default_icon": "src/assets/icons/faster_icon.png",
     "default_popup": "src/popup.html"
   },
-  "permissions": ["activeTab"]
+  "permissions": ["activeTab", "storage"]
 }

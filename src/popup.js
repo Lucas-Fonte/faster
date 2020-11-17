@@ -1,11 +1,18 @@
 const playbackRateSlider = document.getElementById('playbackRateSlider');
 const playbackRateOutput = document.getElementById('playbackRateOutput');
-playbackRateOutput.innerHTML =
-  Number(playbackRateSlider.value).toFixed(1) + 'x';
+
+chrome.storage.local.get(['previousRate'], (result) => {
+  const currentRate =
+    result.previousRate || Number(playbackRateSlider.value).toFixed(1);
+  playbackRateOutput.innerHTML = currentRate + 'x';
+  playbackRateSlider.value = currentRate;
+});
 
 playbackRateSlider.oninput = function () {
-  playbackRateOutput.innerHTML = Number(this.value).toFixed(1) + 'x';
-  executePlaybackRateChange(this.value);
+  chrome.storage.local.set({ previousRate: this.value }, () => {
+    playbackRateOutput.innerHTML = Number(this.value).toFixed(1) + 'x';
+    executePlaybackRateChange(this.value);
+  });
 };
 
 const executePlaybackRateChange = (playbackRate) => {
