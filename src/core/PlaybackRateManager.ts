@@ -1,5 +1,11 @@
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable operator-linebreak */
+/* eslint-disable keyword-spacing */
+/* eslint-disable no-undef */
+/* eslint-disable class-methods-use-this */
 class PlaybackRateManager {
   playbackRateSlider: HTMLElement;
+
   playbackRateOutput: HTMLElement;
 
   constructor() {
@@ -12,19 +18,19 @@ class PlaybackRateManager {
     };
   }
 
-  checkForPreviousValue(): void {
+  private checkForPreviousValue(): void {
     chrome.storage.local.get(['previousRate'], (result) => {
       const currentRate =
         result.previousRate ||
         Number((<HTMLInputElement>this.playbackRateSlider).value).toFixed(1);
-      this.playbackRateOutput.innerHTML = currentRate + 'x';
+      this.playbackRateOutput.innerHTML = `${currentRate}x`;
       (<HTMLInputElement>this.playbackRateSlider).value = currentRate;
     });
   }
 
-  changeRate(value: string | number): void {
+  private changeRate(value: string | number): void {
     chrome.storage.local.set({ previousRate: value }, () => {
-      this.playbackRateOutput.innerHTML = Number(value).toFixed(1) + 'x';
+      this.playbackRateOutput.innerHTML = `${Number(value).toFixed(1)}x`;
       this.executePlaybackRateChange(value);
     });
   }
