@@ -4,17 +4,22 @@
   "description": "This is a simple extension that will manage video playback rate.",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --coverage",
     "build": "npx webpack"
   },
   "devDependencies": {
     "@types/chrome": "0.0.126",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.7",
     "@typescript-eslint/eslint-plugin": "^4.8.0",
     "@typescript-eslint/parser": "^4.8.0",
     "eslint": "^7.13.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.4.4",
     "ts-loader": "^8.0.11",
+    "ts-node": "^9.0.0",
     "typescript": "^4.0.5",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
@@ -29,5 +34,9 @@
   "bugs": {
     "url": "https://github.com/Lucas-Fonte/faster/issues"
   },
-  "homepage": "https://github.com/Lucas-Fonte/faster#readme"
+  "homepage": "https://github.com/Lucas-Fonte/faster#readme",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ]
 }

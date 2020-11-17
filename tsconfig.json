@@ -5,8 +5,11 @@
     "noImplicitAny": true,
     "module": "es6",
     "target": "es5",
-    "types": ["@types/chrome"],
+    "esModuleInterop": true,
+    "types": ["@types/chrome", "@types/jest", "@types/node"],
     "jsx": "react",
     "allowJs": true
-  }
+  },
+  // "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }
