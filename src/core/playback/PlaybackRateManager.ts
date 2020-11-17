@@ -67,7 +67,7 @@ class PlaybackRateManager {
           let playbackRate = ${playbackRate};
           const videoPlayerList = document.getElementsByTagName('video');
 
-          if (!videoPlayerList) {
+          if (!videoPlayerList.length) {
             alert('Video not found');
             return;
           }
