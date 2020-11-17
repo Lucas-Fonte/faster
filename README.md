@@ -32,10 +32,9 @@ The main idea of this project is to be a simple chrome extension that helps you 
 </p>
 
 - ### Step 2
-
-After copying or cloning the project to your computer, go to your chromium based browser extension settings, (something like <a href="chrome://extensions/">chrome://extensions/</a>).
-Then you turn on **Development mode**, on the right corner and there should be an option saying **Load unpacked** on your left corner this time, click on it and select the project folder your just copied/cloned, (probably somewhere like `your_username/downloads/faster`).
-After that you are pretty much good to go! (;
+  After copying or cloning the project to your computer, go to your chromium based browser extension settings, (something like <a href="chrome://extensions/">chrome://extensions/</a>).
+  Then you turn on **Development mode**, on the right corner and there should be an option saying **Load unpacked** on your left corner this time, click on it and select the project folder your just copied/cloned, (probably somewhere like `your_username/downloads/faster`).
+  After that you are pretty much good to go! (;
 
 <p align="center">
   <img src="dist/assets/completed_example.png" alt="completed_example" width="200px">
