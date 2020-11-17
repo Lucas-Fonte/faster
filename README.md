@@ -1,5 +1,5 @@
 <p align="center">
-<img src="src/assets/faster_logo.png" alt="logo" width="100px">
+<img src="dist/assets/faster_logo.png" alt="logo" width="100px">
 
 <h1 align="center"><i>Faster</i></h1>
 
@@ -23,4 +23,4 @@ The main idea of this project is to be a simple chrome extension that helps you 
 
 Download it from [here](https://chrome.google.com/webstore/search/Faster), once you have downloaded, just pin the extension and by clicking on it, the extension popup will show up and then you can change the video rate from there, if there is a video available.
 
-<img src="src/assets/example.png" alt="example" width="100px">
+<img src="dist/assets/example.png" alt="example" width="100px">
