@@ -11,11 +11,13 @@
 import { ExtensionOperator } from '../extension/ExtensionOperator';
 
 class PlaybackRateManager {
-  private STORAGE_KEY = 'previousRate';
+  private PREVIOUS_RATE_STORAGE_KEY = 'previousRate';
+  private SAVED_MINUTES_STORAGE_KEY = 'savedMinutes';
 
   document: Document;
   playbackRateSlider: HTMLElement;
   playbackRateOutput: HTMLElement;
+  savedMinutesTracker: HTMLElement;
   extensionOperator: ExtensionOperator;
 
   public execute() {
@@ -25,7 +27,14 @@ class PlaybackRateManager {
     this.playbackRateOutput = this.document.getElementById(
       'playbackRateOutput'
     );
+    this.savedMinutesTracker = this.document.getElementById(
+      'savedMinutesTracker'
+    );
+
     this.checkForPreviousValue();
+
+    // TODO: refactor these previous methods
+    this.checkForPreviousSavedTime();
 
     this.playbackRateSlider.oninput = ({ target }) => {
       this.changeRate((<HTMLInputElement>target).value);
@@ -47,7 +56,19 @@ class PlaybackRateManager {
         Number((<HTMLInputElement>this.playbackRateSlider).value).toFixed(1);
       this.playbackRateOutput.innerHTML = `${currentRate}x`;
       (<HTMLInputElement>this.playbackRateSlider).value = currentRate;
-    }, this.STORAGE_KEY);
+    }, this.PREVIOUS_RATE_STORAGE_KEY);
+  }
+
+  private checkForPreviousSavedTime(): void {
+    this.extensionOperator.getLocalStorage((result: any) => {
+      const currentTrackedTime =
+        result[this.SAVED_MINUTES_STORAGE_KEY].toFixed(0) ||
+        Number(this.savedMinutesTracker.innerHTML).toFixed(0);
+
+      this.savedMinutesTracker.innerHTML = ` ${
+        currentTrackedTime > 0 ? '+' : ''
+      }${currentTrackedTime} minutes`;
+    }, this.SAVED_MINUTES_STORAGE_KEY);
   }
 
   private changeRate(value: string | number): void {
@@ -56,8 +77,45 @@ class PlaybackRateManager {
         this.playbackRateOutput.innerHTML = `${Number(value).toFixed(1)}x`;
         this.executePlaybackRateChange(value);
       },
-      this.STORAGE_KEY,
+      this.PREVIOUS_RATE_STORAGE_KEY,
       value
+    );
+
+    this.changeTrackedTime(value);
+  }
+
+  private changeTrackedTime(speedRate: string | number): void {
+    chrome.tabs.executeScript(
+      {
+        code: `
+          function getContentDuration() {
+            const videoPlayerList = document.getElementsByTagName('video');
+
+            if (!videoPlayerList.length) {
+              alert('Video not found');
+              return;
+            }
+            const duration = videoPlayerList[videoPlayerList.length - 1].duration;
+            return duration;
+          }
+    
+          getContentDuration();
+        `,
+      },
+      ([duration]) => {
+        const minutes = duration / 60;
+        const resolvedMinutes = minutes - minutes / Number(speedRate);
+
+        this.savedMinutesTracker.innerHTML = `${
+          resolvedMinutes > 0 ? '+' : ''
+        }${Number(resolvedMinutes).toFixed(0)} minutes`;
+
+        this.extensionOperator.setLocalStorage(
+          () => {},
+          this.SAVED_MINUTES_STORAGE_KEY,
+          resolvedMinutes
+        );
+      }
     );
   }
 
