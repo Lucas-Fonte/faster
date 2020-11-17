@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/Code-Javascript-informational?style=flat&logo=javascript&logoColor=white&color=2bbc8a" alt="image" />
+<img src="https://img.shields.io/badge/Code-Typescript-informational?style=flat&logo=typescript&logoColor=white&color=2bbc8a" alt="image" />
 <img src="https://img.shields.io/badge/chrome web store-Chrome-informational?style=flat&logo=chrome&logoColor=white&color=2bbc8a" alt="image" />
 
 </p>
