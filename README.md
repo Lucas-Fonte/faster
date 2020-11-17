@@ -21,6 +21,8 @@ The main idea of this project is to be a simple chrome extension that helps you 
 
 ## Installation
 
+**(OBS: I am on the process of getting this onto the chrome web store, I will update this as soon as it is available for download)**
+
 - ### Step 1
 
   Copy the project to your local machine or if you are a git user clone the repository, you can use the button on the right corner.
