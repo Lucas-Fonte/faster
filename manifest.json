@@ -4,13 +4,13 @@
   "description": "This is a simple extension that will manage video playback rate.",
   "version": "1.0",
   "icons": {
-    "16": "src/assets/icons/icon16.png",
-    "48": "src/assets/icons/icon48.png",
-    "128": "src/assets/icons/icon128.png"
+    "16": "dist/assets/icons/icon16.png",
+    "48": "dist/assets/icons/icon48.png",
+    "128": "dist/assets/icons/icon128.png"
   },
   "browser_action": {
-    "default_icon": "src/assets/icons/faster_icon.png",
-    "default_popup": "src/popup.html"
+    "default_icon": "dist/assets/icons/faster_icon.png",
+    "default_popup": "dist/popup.html"
   },
   "permissions": ["activeTab", "storage"]
 }
