@@ -1,21 +1,28 @@
-document.getElementById('changeRate').addEventListener('click', () => {
+const playbackRateSlider = document.getElementById('playbackRateSlider');
+const playbackRateOutput = document.getElementById('playbackRateOutput');
+playbackRateOutput.innerHTML =
+  Number(playbackRateSlider.value).toFixed(1) + 'x';
+
+playbackRateSlider.oninput = function () {
+  playbackRateOutput.innerHTML = Number(this.value).toFixed(1) + 'x';
+  executePlaybackRateChange(this.value);
+};
+
+const executePlaybackRateChange = (playbackRate) => {
   chrome.tabs.executeScript({
     code: `
     function setPlaybackSpeedFaster() {
-      const DEFAULT_PLAYBACK_RATE = 1.5;
-      let playbackRate = DEFAULT_PLAYBACK_RATE;
-      playbackRate = prompt('Please enter the desired playback rate', playbackRate);
+      let playbackRate = ${playbackRate};
       const [videoPlayer] = document.getElementsByTagName('video');
       
       if (!videoPlayer) {
         alert('Video not found');
         return;
       }
-      playbackRate = Number(playbackRate);
       videoPlayer.playbackRate = playbackRate;
     }    
 
     setPlaybackSpeedFaster();
     `,
   });
-});
+};
