@@ -9,6 +9,7 @@ interface ExtensionOperator {
     value: any
   ) => void;
   executeScript: (code: string) => void;
+  executeScriptWithCallback: (code: string, callbackFunction: Function) => void;
 }
 
 export { ExtensionOperator };

@@ -34,6 +34,15 @@ class ChromeExtensionOperator implements ExtensionOperator {
       () => chrome.runtime.lastError
     );
   }
+
+  public executeScriptWithCallback(code: string, callbackFunction: Function) {
+    chrome.tabs.executeScript(
+      {
+        code,
+      },
+      callbackFunction()
+    );
+  }
 }
 
 export { ChromeExtensionOperator };

@@ -9,6 +9,8 @@
 /* eslint-disable class-methods-use-this */
 
 import { ExtensionOperator } from '../extension/ExtensionOperator';
+import { setPreviousPlaybackRate } from './setPreviousPlaybackRate';
+import { setPreviousSavedTime } from './setPreviousSavedMinutes';
 
 class PlaybackRateManager {
   private PREVIOUS_RATE_STORAGE_KEY = 'previousRate';
@@ -31,10 +33,17 @@ class PlaybackRateManager {
       'savedMinutesTracker'
     );
 
-    this.checkForPreviousValue();
+    this.checkForSavedState(this.PREVIOUS_RATE_STORAGE_KEY, (result: any) => {
+      setPreviousPlaybackRate(
+        result,
+        this.playbackRateSlider,
+        this.playbackRateOutput
+      );
+    });
 
-    // TODO: refactor these previous methods
-    this.checkForPreviousSavedTime();
+    this.checkForSavedState(this.SAVED_MINUTES_STORAGE_KEY, (result: any) => {
+      setPreviousSavedTime(result, this.savedMinutesTracker);
+    });
 
     this.playbackRateSlider.oninput = ({ target }) => {
       this.changeRate((<HTMLInputElement>target).value);
@@ -49,26 +58,10 @@ class PlaybackRateManager {
     this.extensionOperator = extensionOperator;
   }
 
-  private checkForPreviousValue(): void {
+  private checkForSavedState(key: string, callbackFunction: Function): void {
     this.extensionOperator.getLocalStorage((result: any) => {
-      const currentRate =
-        result.previousRate ||
-        Number((<HTMLInputElement>this.playbackRateSlider).value).toFixed(1);
-      this.playbackRateOutput.innerHTML = `${currentRate}x`;
-      (<HTMLInputElement>this.playbackRateSlider).value = currentRate;
-    }, this.PREVIOUS_RATE_STORAGE_KEY);
-  }
-
-  private checkForPreviousSavedTime(): void {
-    this.extensionOperator.getLocalStorage((result: any) => {
-      const currentTrackedTime =
-        result[this.SAVED_MINUTES_STORAGE_KEY].toFixed(0) ||
-        Number(this.savedMinutesTracker.innerHTML).toFixed(0);
-
-      this.savedMinutesTracker.innerHTML = ` ${
-        currentTrackedTime > 0 ? '+' : ''
-      }${currentTrackedTime} minutes`;
-    }, this.SAVED_MINUTES_STORAGE_KEY);
+      callbackFunction(result);
+    }, key);
   }
 
   private changeRate(value: string | number): void {
