@@ -9,6 +9,7 @@
 /* eslint-disable class-methods-use-this */
 
 import { ExtensionOperator } from '../extension/ExtensionOperator';
+import { TimeTracker } from '../timetracker/TimeTracker';
 import { setPreviousPlaybackRate } from './setPreviousPlaybackRate';
 import { setPreviousSavedTime } from './setPreviousSavedMinutes';
 
@@ -21,6 +22,7 @@ class PlaybackRateManager {
   playbackRateOutput: HTMLElement;
   savedMinutesTracker: HTMLElement;
   extensionOperator: ExtensionOperator;
+  timeTracker: TimeTracker;
 
   public execute() {
     this.playbackRateSlider = this.document.getElementById(
@@ -40,6 +42,11 @@ class PlaybackRateManager {
         this.playbackRateOutput
       );
     });
+
+    this.timeTracker = new TimeTracker(
+      this.extensionOperator,
+      this.savedMinutesTracker
+    );
 
     this.checkForSavedState(this.SAVED_MINUTES_STORAGE_KEY, (result: any) => {
       setPreviousSavedTime(result, this.savedMinutesTracker);
@@ -74,42 +81,7 @@ class PlaybackRateManager {
       value
     );
 
-    this.changeTrackedTime(value);
-  }
-
-  private changeTrackedTime(speedRate: string | number): void {
-    chrome.tabs.executeScript(
-      {
-        code: `
-          function getContentDuration() {
-            const videoPlayerList = document.getElementsByTagName('video');
-
-            if (!videoPlayerList.length) {
-              alert('Video not found');
-              return;
-            }
-            const duration = videoPlayerList[videoPlayerList.length - 1].duration;
-            return duration;
-          }
-    
-          getContentDuration();
-        `,
-      },
-      ([duration]) => {
-        const minutes = duration / 60;
-        const resolvedMinutes = minutes - minutes / Number(speedRate);
-
-        this.savedMinutesTracker.innerHTML = `${
-          resolvedMinutes > 0 ? '+' : ''
-        }${Number(resolvedMinutes).toFixed(0)} minutes`;
-
-        this.extensionOperator.setLocalStorage(
-          () => {},
-          this.SAVED_MINUTES_STORAGE_KEY,
-          resolvedMinutes
-        );
-      }
-    );
+    this.timeTracker.changeTrackedTime(value);
   }
 
   private executePlaybackRateChange(playbackRate: string | number) {

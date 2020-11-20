@@ -22,7 +22,7 @@ class TimeTracker {
 
   public changeTrackedTime(speedRate: string | number): void {
     this.extensionOperator.executeScriptWithCallback(
-      `
+      `       
               function getContentDuration() {
                 const videoPlayerList = document.getElementsByTagName('video');
     
@@ -31,10 +31,11 @@ class TimeTracker {
                   return;
                 }
                 const duration = videoPlayerList[videoPlayerList.length - 1].duration;
+
                 return duration;
               }
         
-							getContentDuration();`,
+              getContentDuration();`,
       ([duration]: [number]) => {
         this.executeTimeChange(duration, speedRate);
       }

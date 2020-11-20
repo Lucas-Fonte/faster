@@ -40,7 +40,7 @@ class ChromeExtensionOperator implements ExtensionOperator {
       {
         code,
       },
-      callbackFunction()
+      (result) => callbackFunction(result)
     );
   }
 }
